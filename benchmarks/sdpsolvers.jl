@@ -1,13 +1,14 @@
 using BenchmarkTools
 using JuMP
 using CSV, DataFrames
-using Clarabel, SDPLR, MosekTools, Hypatia, Loraine, Pajarito, ProxSDP, SCS, SDPA, COSMO, CSDP, HiGHS
+using Clarabel, SDPLR, MosekTools, Hypatia, Loraine, Pajarito, ProxSDP, SCS,
+SDPA, COSMO, CSDP, HiGHS, DSDP
 
 include("../scripts/problems.jl")
 
 function main()
     level = 1
-    for solver in [SDPLR, Clarabel, Mosek, Hypatia, Loraine, Pajarito, ProxSDP, SCS, SDPA, COSMO, CSDP]
+    for solver in [SDPLR, Clarabel, Mosek, Hypatia, Loraine, Pajarito, ProxSDP, SCS, SDPA, COSMO, CSDP, DSDP]
         CSV.write("data/$(solver)_sdp_star_graph.csv", DataFrame(solver=[], size=Int64[],
             time=Float64[], error=Float64[], mem=Float64[]))
         optimizer = solver == Pajarito ? optimizer_with_attributes(
@@ -21,7 +22,7 @@ function main()
             "conic_solver" =>
                 optimizer_with_attributes(Hypatia.Optimizer, MOI.Silent() => true),
         ) : solver.Optimizer
-        for n in 4:4:12
+        for n in 4:4:24
             try
                 time = @belapsed solve_star_graph_problem($n, $level, $(optimizer))
 
@@ -31,6 +32,10 @@ function main()
 
                 @info "solver: $solver, n: $n, finished in $time seconds, with error $cur_err, mem: $(mem/10^6) MB"
                 CSV.write("data/$(solver)_sdp_star_graph.csv", DataFrame(solver=solver, size=n, time=time, error=cur_err, mem=mem / 10^6), append=true)
+                if time > 1000
+                    @info "solver: $solver solves $n in $time seconds, too long, aborting larger scales"
+                    break
+                end
             catch e
                 @info "solve: $solver, n: $n, error: $e"
             end
