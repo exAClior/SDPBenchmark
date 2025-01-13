@@ -2,7 +2,7 @@
 
 julia_version = "1.11.2"
 manifest_format = "2.0"
-project_hash = "8b1705b34197378d14e5cb1e2e1fd835abbfdce8"
+project_hash = "d5b063928bd7211c6bba0a47fea873233dfcff74"
 
 [[deps.AMD]]
 deps = ["LinearAlgebra", "SparseArrays", "SuiteSparse_jll"]
@@ -325,6 +325,18 @@ git-tree-sha1 = "37d654f7bf65c4ecc539ff130a6c41baae0486da"
 uuid = "017b0a0e-03f4-516a-9b91-836bbd1904dd"
 version = "4.0.1+0"
 
+[[deps.HiGHS]]
+deps = ["HiGHS_jll", "MathOptInterface", "PrecompileTools", "SparseArrays"]
+git-tree-sha1 = "b07cf87cb3bcbd65d1d3fcf4143d4a44abe33d20"
+uuid = "87dc4568-4c63-4d18-b0c0-bb2238e4078b"
+version = "1.13.0"
+
+[[deps.HiGHS_jll]]
+deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Zlib_jll"]
+git-tree-sha1 = "26694f04567e584b054b9f33a810cec52adafa38"
+uuid = "8fd58aa0-07eb-5a78-9b36-339c94fd15ea"
+version = "1.9.0+0"
+
 [[deps.Hypatia]]
 deps = ["Combinatorics", "DocStringExtensions", "GenericLinearAlgebra", "IterativeSolvers", "LinearAlgebra", "LinearMaps", "MathOptInterface", "PolynomialRoots", "Printf", "Requires", "SparseArrays", "SpecialFunctions", "SuiteSparse", "Test"]
 git-tree-sha1 = "a697c4d3e0037fc6d058d527617a4aa46d5761e5"
@@ -599,9 +611,9 @@ version = "1.2.0"
 
 [[deps.OpenBLAS32_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "dd806c813429ff09878ea3eeb317818f3ca02871"
+git-tree-sha1 = "ece4587683695fe4c5f20e990da0ed7e83c351e7"
 uuid = "656ef2d0-ae68-5445-9ca0-591084a874a2"
-version = "0.3.28+3"
+version = "0.3.29+0"
 
 [[deps.OpenBLAS_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
@@ -930,7 +942,7 @@ version = "0.5.26"
 
 [[deps.TinyPOP]]
 deps = ["ChordalGraph", "Clarabel", "Combinatorics", "DynamicPolynomials", "Graphs", "JuMP", "LinearAlgebra", "MathOptInterface", "MosekTools", "MultivariatePolynomials", "SemialgebraicSets"]
-git-tree-sha1 = "498f0db7afa92409c0677126f43fa50e35e5ff52"
+git-tree-sha1 = "4c4cb9c044774d48a9304475a4f83b066d8c7a45"
 repo-rev = "yz/dev"
 repo-url = "../TinyPOP.jl"
 uuid = "5da4d31d-c08f-4b04-a1e4-8b6725394104"

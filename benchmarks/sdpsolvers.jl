@@ -1,18 +1,7 @@
 using BenchmarkTools
 using JuMP
-using CSV
-using DataFrames
-using Clarabel
-using SDPLR
-using MosekTools
-using Hypatia
-using Loraine
-using Pajarito
-using ProxSDP
-using SCS
-using SDPA
-using COSMO
-using CSDP
+using CSV, DataFrames
+using Clarabel, SDPLR, MosekTools, Hypatia, Loraine, Pajarito, ProxSDP, SCS, SDPA, COSMO, CSDP, HiGHS
 
 include("../scripts/problems.jl")
 
@@ -21,13 +10,24 @@ function main()
     for solver in [SDPLR, Clarabel, Mosek, Hypatia, Loraine, Pajarito, ProxSDP, SCS, SDPA, COSMO, CSDP]
         CSV.write("data/$(solver)_sdp_star_graph.csv", DataFrame(solver=[], size=Int64[],
             time=Float64[], error=Float64[], mem=Float64[]))
-        for n in 2:4:10
+        optimizer = solver == Pajarito ? optimizer_with_attributes(
+            Pajarito.Optimizer,
+            "oa_solver" => optimizer_with_attributes(
+                HiGHS.Optimizer,
+                MOI.Silent() => true,
+                "mip_feasibility_tolerance" => 1e-8,
+                "mip_rel_gap" => 1e-6,
+            ),
+            "conic_solver" =>
+                optimizer_with_attributes(Hypatia.Optimizer, MOI.Silent() => true),
+        ) : solver.Optimizer
+        for n in 4:4:12
             try
-                time = @belapsed solve_star_graph_problem($n, $level, $(solver.Optimizer))
+                time = @belapsed solve_star_graph_problem($n, $level, $(optimizer))
 
-                mem = @ballocated solve_star_graph_problem($n, $level, $(solver.Optimizer))
+                mem = @ballocated solve_star_graph_problem($n, $level, $(optimizer))
 
-                cur_err = abs(solve_star_graph_problem(n, level, solver.Optimizer) - (-1.0))
+                cur_err = abs(solve_star_graph_problem(n, level, optimizer) - (-1.0))
 
                 @info "solver: $solver, n: $n, finished in $time seconds, with error $cur_err, mem: $(mem/10^6) MB"
                 CSV.write("data/$(solver)_sdp_star_graph.csv", DataFrame(solver=solver, size=n, time=time, error=cur_err, mem=mem / 10^6), append=true)

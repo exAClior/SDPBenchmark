@@ -29,8 +29,6 @@ function plot_sdp_performance()
 		axislegend(ax; position = :rb, labelsize = 15)
 		save("figs/$purpose.png", fig)
 	end
-
-
 end
 
 
