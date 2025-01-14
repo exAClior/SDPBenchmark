@@ -1,0 +1,9 @@
+  Activating project at `~/projects/SDPBenchmark`
+[ Info: solver: COSMO, n: 4, mem: 3.427008 MB
+[ Info: solver: COSMO, n: 8, mem: 56.308632 MB
+[ Info: solver: COSMO, n: 12, mem: 406.16996 MB
+[ Info: solver: COSMO, n: 16, mem: 1963.427896 MB
+[ Info: solver: COSMO, n: 20, mem: 7373.77092 MB
+[ Info: solver: COSMO, n: 24, mem: 22844.175728 MB
+[ Info: solver: COSMO, n: 28, mem: 74328.8336 MB
+[ Info: solver: COSMO solves 28 in 180.540239042 seconds, too long, aborting larger scales

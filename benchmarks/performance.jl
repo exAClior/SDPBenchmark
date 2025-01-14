@@ -14,15 +14,14 @@ function main()
         optimizer = solver.Optimizer
         for n in 4:4:30
             try
-                # time = @belapsed solve_star_graph_problem($n, $level, $(optimizer))
-
+                time = @belapsed solve_star_graph_problem($n, $level, $(optimizer))
 
                 mem = @ballocated solve_star_graph_problem($n, $level, $(optimizer))
 
                 cur_err = abs(solve_star_graph_problem(n, level, optimizer) - (-1.0))
 
                 @info "solver: $solver, n: $n, mem: $(mem/10^6) MB"
-                CSV.write("data/$(solver)_sdp_star_graph_perf.csv", DataFrame(solver=solver, size=n, mem=mem / 10^6), append=true)
+                CSV.write("data/$(solver)_sdp_star_graph_perf.csv", DataFrame(solver=solver, size=n, time=time, error=cur_err, mem=mem / 10^6), append=true)
                 if time > 100
                     @info "solver: $solver solves $n in $time seconds, too long, aborting larger scales"
                     break
@@ -30,7 +29,6 @@ function main()
             catch e
                 @info "solve: $solver, n: $n, error: $e"
             end
-
         end
     end
 end

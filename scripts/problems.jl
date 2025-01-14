@@ -10,7 +10,7 @@ function solve_star_graph_problem(n_sites::Int, lasserre_hierarchy::Int, optimiz
 
     findvaridx(i, j) = findfirst(x -> x == (i, j), vec_idx2ij)
 
-    @polyvar pij[1:length(vec_idx2ij)]
+    @ncpolyvar pij[1:length(vec_idx2ij)]
 
     objective = sum(pij[[findvaridx(ee.src, ee.dst) for ee in edges(star)]])
 
