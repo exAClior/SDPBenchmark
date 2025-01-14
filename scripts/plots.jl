@@ -1,10 +1,10 @@
 using CSV, DataFrames
-using SDPLR, Clarabel, MosekTools, Hypatia, Loraine, Pajarito, ProxSDP, SCS, SDPA, COSMO, CSDP
+using SDPLR, Clarabel, MosekTools, Hypatia, Loraine, Pajarito, ProxSDP, SCS, SDPA, COSMO, CSDP, DSDP
 using CairoMakie
 
 function plot_sdp_performance()
 
-    solvers = [SDPLR, Clarabel, Mosek, Loraine, Pajarito, ProxSDP, SCS, SDPA, COSMO]
+    solvers = [Loraine, Mosek, Pajarito, SCS, COSMO, CSDP]
 
     mem_cost = Dict("$solver" => Tuple{Int64,Float64}[] for solver in solvers)
     time_cost = Dict("$solver" => Tuple{Int64,Float64}[] for solver in solvers)
@@ -27,7 +27,7 @@ function plot_sdp_performance()
             lines!(ax, [term[1] for term in dict["$solver"]], [transform(term[2]) for term in dict["$solver"]], label="$solver")
 		end
 		axislegend(ax; position = :rb, labelsize = 15)
-		save("figs/$purpose.png", fig)
+		save("figs/$purpose.svg", fig)
 	end
 end
 
